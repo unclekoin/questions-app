@@ -1,10 +1,16 @@
-import {isValid} from "./utils";
+import {createModal, isValid} from "./utils";
 import Question from "./question";
 import './styles.css';
+import {getAuthForm} from "./auth";
 
 const form = document.getElementById('form');
+const modalBtn = document.getElementById('modal-btn');
 const input = form.querySelector('#question-input');
 const submitBtn = form.querySelector('#submit');
+
+window.addEventListener('load', Question.renderList);
+
+modalBtn.addEventListener('click', openModal);
 
 form.addEventListener('submit', submitFormHandler);
 input.addEventListener('input', () => {
@@ -29,4 +35,8 @@ function submitFormHandler(event) {
       submitBtn.disabled = false;
     })
   }
+}
+
+function openModal() {
+  createModal('Authorization', getAuthForm())
 }
