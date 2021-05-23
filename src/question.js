@@ -16,6 +16,14 @@ export default class Question {
       .then(Question.renderList)
   }
 
+  static fetch(token) {
+    return fetch(`https://i-have-a-question-c0d15-default-rtdb.europe-west1.firebasedatabase.app/questions.json?auth=${token}`)
+      .then(response => response.json())
+      .then(questions => {
+        console.log('Questions:', questions);
+      })
+  }
+
   static renderList() {
     const questions = getQuestionsFromLocalStorage();
 

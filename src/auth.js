@@ -6,10 +6,23 @@ export function getAuthForm() {
             <label for="email">Email</label>
         </div>
         <div class="mui-textfield mui-textfield--float-label">
-            <input type="password" id="pasword" required>
+            <input type="password" id="password" required>
             <label for="pasword">Password</label>
         </div>
         <button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Login</button>
     </form>
   `
+}
+
+export function authWithEmailAndPassword(email, password) {
+  const apiKey = 'AIzaSyCR26taOoLIdTiKKRQM3cMApfjQg1i7BBc';
+  return fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`, {
+    method: 'POST',
+    body: JSON.stringify({email, password, returnSecureToken: true}),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => data.idToken)
 }
