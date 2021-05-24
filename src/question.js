@@ -17,10 +17,20 @@ export default class Question {
   }
 
   static fetch(token) {
+    if (!token) {
+      return Promise.resolve('<p class="error">You don\'t have a token</p>')
+    }
     return fetch(`https://i-have-a-question-c0d15-default-rtdb.europe-west1.firebasedatabase.app/questions.json?auth=${token}`)
       .then(response => response.json())
-      .then(questions => {
-        console.log('Questions:', questions);
+      .then(response => {
+        if (response && response.error) {
+          return `<p class="error">${ response.error }</p>`;
+        }
+
+        return  response ? Object.keys(response).map((key) => ({
+          ...response[key],
+          if: key
+        })) : []
       })
   }
 
@@ -33,6 +43,12 @@ export default class Question {
 
     const list = document.getElementById('list');
     list.innerHTML = html;
+  }
+
+  static ListToHTML(questions) {
+    return questions.length
+      ? `<ol>${questions.map((question) => `<li>${question.text}</li>`).join('') }</ol>`
+      : '<p>You don\'t have any questions yet.</p>'
   }
 }
 
